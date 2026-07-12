@@ -22,9 +22,13 @@ function App() {
 
   return (
     <main className="app">
-      <p className="eyebrow">
-        Interactive Physics Laboratory
-      </p>
+      <div className="eyebrow-row">
+        <p className="eyebrow">
+          Interactive Physics Laboratory
+        </p>
+
+        <span className="alpha-badge">Alpha</span>
+      </div>
 
       <h1>Symmetry-Breaking Orchestra</h1>
 
@@ -172,6 +176,20 @@ function App() {
           <small>mᴳ</small>
         </article>
       </section>
+
+      <footer className="app-footer">
+        <span>Global U(1) educational model</span>
+
+        <a
+          href="https://github.com/raunaksachinkhanna/symmetry-breaking-orchestra"
+          target="_blank"
+          rel="noreferrer"
+        >
+          GitHub repository
+        </a>
+
+        <span>Under active development</span>
+      </footer>
     </main>
   );
 }
