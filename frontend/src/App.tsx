@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import "./App.css";
 import { calculateModel } from "./physics/model";
+import { PotentialPlot } from "./components/PotentialPlot";
 
 function App() {
   const [muSquared, setMuSquared] = useState(-1);
@@ -26,8 +27,8 @@ function App() {
       <h1>Symmetry-Breaking Orchestra</h1>
 
       <p className="subtitle">
-        Change the parameters of a mathematical universe and
-        watch its vacuum, symmetry and particle spectrum respond.
+        Change the parameters of a mathematical universe and watch its
+        vacuum, symmetry and particle spectrum respond.
       </p>
 
       <section className="panel">
@@ -78,13 +79,22 @@ function App() {
         <div className="result">
           <span>Current phase</span>
 
-          <strong className={isBroken ? "broken" : "symmetric"}>
+          <strong
+            className={isBroken ? "broken" : "symmetric"}
+          >
             {isBroken
               ? "Broken symmetry"
               : "Symmetric"}
           </strong>
         </div>
       </section>
+
+      <PotentialPlot
+        muSquared={muSquared}
+        lambda={lambda}
+        vacuumRadius={model.vacuumRadius}
+        phase={model.phase}
+      />
 
       <section className="physics-grid">
         <article className="physics-card">
