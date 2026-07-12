@@ -112,3 +112,208 @@ h1 {
 .symmetric {
   color: #70efff;
 }
+
+.visual-panel {
+  width: min(1000px, 92vw);
+  margin: 24px auto 0;
+  padding: 26px;
+  border: 1px solid rgba(116, 237, 255, 0.2);
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(7, 14, 31, 0.94),
+      rgba(18, 13, 42, 0.9)
+    );
+  box-shadow:
+    0 20px 55px rgba(0, 0, 0, 0.25),
+    0 0 35px rgba(108, 225, 255, 0.06);
+}
+
+.plot-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  text-align: left;
+}
+
+.plot-heading h2 {
+  margin: 5px 0 0;
+  color: #f5f7ff;
+  font-size: 1.3rem;
+}
+
+.plot-label {
+  margin: 0;
+  color: #71ebff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.phase-badge {
+  padding: 8px 13px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.broken-badge {
+  color: #ff83d2;
+  border-color: rgba(255, 118, 207, 0.38);
+  background: rgba(255, 118, 207, 0.08);
+}
+
+.symmetric-badge {
+  color: #73efff;
+  border-color: rgba(115, 239, 255, 0.38);
+  background: rgba(115, 239, 255, 0.08);
+}
+
+.potential-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 12px;
+  overflow: visible;
+  border-radius: 16px;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(84, 82, 170, 0.12),
+      transparent 60%
+    );
+}
+
+.plot-axis {
+  stroke: rgba(200, 214, 240, 0.22);
+  stroke-width: 1;
+}
+
+.potential-glow-line {
+  fill: none;
+  stroke: rgba(164, 112, 255, 0.24);
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.potential-line {
+  fill: none;
+  stroke: url("#potential-gradient");
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url("#potential-glow");
+}
+
+.vacuum-marker {
+  fill: #ffd568;
+  stroke: white;
+  stroke-width: 2;
+}
+
+.vacuum-halo {
+  fill: rgba(255, 213, 104, 0.16);
+  stroke: rgba(255, 213, 104, 0.35);
+  stroke-width: 1;
+}
+
+.axis-label {
+  fill: #9ba7bf;
+  font-size: 12px;
+}
+
+.equation-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+}
+
+.equation-row code {
+  color: #d9b3ff;
+  font-size: 0.9rem;
+}
+
+.equation-row span {
+  color: #929eb6;
+  font-size: 0.8rem;
+}
+
+.physics-grid {
+  width: min(1000px, 92vw);
+  margin: 24px auto 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.physics-card {
+  padding: 22px;
+  border: 1px solid rgba(116, 237, 255, 0.18);
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(14, 22, 46, 0.95),
+      rgba(24, 20, 52, 0.9)
+    );
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.22),
+    0 0 20px rgba(100, 225, 255, 0.04);
+  text-align: left;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+.physics-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(116, 237, 255, 0.42);
+}
+
+.physics-card span {
+  display: block;
+  min-height: 42px;
+  color: #aeb8ce;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.physics-card strong {
+  display: block;
+  margin: 12px 0 4px;
+  color: #78efff;
+  font-size: 2rem;
+}
+
+.physics-card small {
+  color: #dfa0ff;
+}
+
+@media (max-width: 800px) {
+  .physics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .plot-heading,
+  .equation-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .physics-grid {
+    grid-template-columns: 1fr;
+  }
+}

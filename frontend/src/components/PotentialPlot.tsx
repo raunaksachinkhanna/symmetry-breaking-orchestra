@@ -187,13 +187,15 @@ export function PotentialPlot({
         />
 
         <path
-          className="potential-glow-line"
-          d={plot.path}
+        className="potential-glow-line"
+        d={plot.path}
+        fill="none"
         />
 
         <path
-          className="potential-line"
-          d={plot.path}
+        className="potential-line"
+        d={plot.path}
+        fill="none"
         />
 
         {plot.vacuumPositions.map((position) => {
