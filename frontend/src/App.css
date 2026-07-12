@@ -1,83 +1,129 @@
 .app {
   min-height: 100vh;
-  padding: 56px 28px;
+  padding: 18px clamp(16px, 2.2vw, 34px) 24px;
   color: white;
-  text-align: center;
   background:
-    radial-gradient(
-      circle at 15% 15%,
-      rgba(15, 91, 112, 0.48),
-      transparent 32%
-    ),
-    radial-gradient(
-      circle at 85% 80%,
-      rgba(103, 28, 129, 0.45),
-      transparent 34%
-    ),
+    radial-gradient(circle at 12% 8%, rgba(15, 91, 112, 0.38), transparent 28%),
+    radial-gradient(circle at 88% 72%, rgba(103, 28, 129, 0.34), transparent 32%),
     #050713;
 }
 
-.eyebrow {
-  margin: 0;
-  color: #74edff;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+.app-header,
+.dashboard,
+.app-footer {
+  width: min(1540px, 100%);
+  margin-inline: auto;
 }
 
-.eyebrow-row {
+.app-header {
+  min-height: 90px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: center;
+  column-gap: 18px;
+  padding: 2px 2px 14px;
+  border-bottom: 1px solid rgba(116, 237, 255, 0.14);
+}
+
+.title-row {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 12px;
 }
 
+h1 {
+  margin: 0;
+  color: transparent;
+  background: linear-gradient(90deg, #70efff, #9b8fff, #ff7fca);
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-size: clamp(1.65rem, 2.6vw, 2.55rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
 .alpha-badge {
+  flex: none;
   padding: 4px 8px;
   border: 1px solid rgba(255, 118, 207, 0.48);
   border-radius: 999px;
   color: #ff91d7;
   background: rgba(255, 118, 207, 0.1);
   box-shadow: 0 0 18px rgba(255, 118, 207, 0.12);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-h1 {
-  max-width: 950px;
-  margin: 18px auto;
-  font-size: clamp(3rem, 8vw, 6rem);
-  line-height: 0.95;
-  background: linear-gradient(
-    90deg,
-    #70efff,
-    #9b8fff,
-    #ff7fca
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+.model-label {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  margin: 0;
+  color: #74edff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
 }
 
 .subtitle {
-  max-width: 700px;
-  margin: 20px auto 36px;
-  color: #b6c0d5;
-  font-size: 1.1rem;
-  line-height: 1.7;
+  grid-column: 1 / -1;
+  margin: 7px 0 0;
+  color: #aeb8ce;
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
-.panel {
-  width: min(700px, 92vw);
-  margin: 0 auto;
-  padding: 30px;
-  border: 1px solid rgba(116, 237, 255, 0.25);
-  border-radius: 22px;
-  background: rgba(8, 14, 31, 0.86);
-  box-shadow: 0 0 45px rgba(96, 218, 255, 0.1);
+.dashboard {
+  display: grid;
+  grid-template-columns: clamp(280px, 22vw, 320px) minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 14px;
+  align-items: stretch;
+}
+
+.panel,
+.visual-panel,
+.physics-grid {
+  border: 1px solid rgba(116, 237, 255, 0.2);
+  background: linear-gradient(145deg, rgba(7, 14, 31, 0.94), rgba(18, 13, 42, 0.9));
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.24), 0 0 28px rgba(108, 225, 255, 0.05);
+}
+
+.controls-panel {
+  min-width: 0;
+  padding: 20px;
+  border-radius: 18px;
+  text-align: left;
+}
+
+.panel-heading p,
+.plot-label {
+  margin: 0;
+  color: #71ebff;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.panel-heading h2,
+.plot-heading h2 {
+  margin: 4px 0 0;
+  color: #f5f7ff;
+  font-size: 1.05rem;
+}
+
+.controls-list {
+  margin-top: 22px;
+}
+
+.control + .control {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .control-heading,
@@ -85,25 +131,34 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
 .control-heading {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .control-heading label {
   color: #d8deed;
+  font-size: 0.82rem;
   font-weight: 600;
 }
 
 .control-heading strong {
   color: #79efff;
+  font-size: 0.82rem;
 }
 
 .control input {
   width: 100%;
+  margin: 0;
   accent-color: #a96dff;
   cursor: pointer;
+}
+
+.control input:focus-visible {
+  outline: 2px solid #74edff;
+  outline-offset: 4px;
 }
 
 .control input:disabled {
@@ -111,28 +166,24 @@ h1 {
   opacity: 0.35;
 }
 
-.control + .control {
-  margin-top: 28px;
-}
-
-.lambda-control {
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.angle-control {
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
 .result {
-  margin-top: 28px;
-  padding-top: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid rgba(255, 118, 207, 0.22);
+  border-radius: 13px;
+  background: rgba(255, 118, 207, 0.06);
 }
 
 .result span {
   color: #b9c3d7;
+  font-size: 0.73rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.result strong {
+  font-size: 0.9rem;
+  text-align: right;
 }
 
 .broken {
@@ -143,52 +194,48 @@ h1 {
   color: #70efff;
 }
 
+.workspace {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto auto;
+  align-content: start;
+  gap: 12px;
+}
+
+.visual-grid {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+
 .visual-panel {
-  width: min(1000px, 92vw);
-  margin: 24px auto 0;
-  padding: 26px;
-  border: 1px solid rgba(116, 237, 255, 0.2);
-  border-radius: 22px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(7, 14, 31, 0.94),
-      rgba(18, 13, 42, 0.9)
-    );
-  box-shadow:
-    0 20px 55px rgba(0, 0, 0, 0.25),
-    0 0 35px rgba(108, 225, 255, 0.06);
+  min-width: 0;
+  margin: 0;
+  padding: 16px;
+  border-radius: 18px;
+  overflow: hidden;
 }
 
 .plot-heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
+  min-height: 40px;
   text-align: left;
 }
 
-.plot-heading h2 {
-  margin: 5px 0 0;
-  color: #f5f7ff;
-  font-size: 1.3rem;
-}
-
-.plot-label {
-  margin: 0;
-  color: #71ebff;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
 .phase-badge {
-  padding: 8px 13px;
+  flex: none;
+  max-width: 52%;
+  padding: 6px 9px;
   border: 1px solid;
   border-radius: 999px;
-  font-size: 0.8rem;
+  font-size: 0.68rem;
   font-weight: 700;
+  text-align: center;
 }
 
 .broken-badge {
@@ -207,15 +254,11 @@ h1 {
   display: block;
   width: 100%;
   height: auto;
-  margin-top: 12px;
+  max-height: 34dvh;
+  margin-top: 8px;
   overflow: visible;
-  border-radius: 16px;
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(84, 82, 170, 0.12),
-      transparent 60%
-    );
+  border-radius: 12px;
+  background: radial-gradient(circle at center, rgba(84, 82, 170, 0.12), transparent 60%);
 }
 
 .plot-axis {
@@ -261,96 +304,41 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  padding-top: 16px;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   text-align: left;
 }
 
 .equation-row code {
+  flex: none;
   color: #d9b3ff;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
 }
 
 .equation-row span {
   color: #929eb6;
-  font-size: 0.8rem;
-}
-
-.physics-grid {
-  width: min(1000px, 92vw);
-  margin: 24px auto 0;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-.physics-card {
-  padding: 22px;
-  border: 1px solid rgba(116, 237, 255, 0.18);
-  border-radius: 18px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(14, 22, 46, 0.95),
-      rgba(24, 20, 52, 0.9)
-    );
-  box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.22),
-    0 0 20px rgba(100, 225, 255, 0.04);
-  text-align: left;
-  transition:
-    transform 180ms ease,
-    border-color 180ms ease;
-}
-
-.physics-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(116, 237, 255, 0.42);
-}
-
-.physics-card span {
-  display: block;
-  min-height: 42px;
-  color: #aeb8ce;
-  font-size: 0.85rem;
-  line-height: 1.4;
-}
-
-.physics-card strong {
-  display: block;
-  margin: 12px 0 4px;
-  color: #78efff;
-  font-size: 2rem;
-}
-
-.physics-card small {
-  color: #dfa0ff;
-}
-
-.vacuum-panel {
-  overflow: hidden;
+  font-size: 0.68rem;
+  text-align: right;
 }
 
 .vacuum-layout {
   display: grid;
-  grid-template-columns: minmax(300px, 1.2fr) minmax(220px, 0.8fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(130px, 0.75fr);
   align-items: center;
-  gap: 30px;
-  margin-top: 16px;
+  gap: 12px;
+  margin-top: 8px;
 }
 
 .vacuum-svg {
   display: block;
-  width: min(100%, 430px);
+  width: min(100%, 280px);
   height: auto;
+  max-height: 34dvh;
   margin: auto;
-  border-radius: 18px;
-  background: radial-gradient(
-    circle,
-    rgba(124, 90, 255, 0.14),
-    transparent 65%
-  );
+  border-radius: 12px;
+  background: radial-gradient(circle, rgba(124, 90, 255, 0.14), transparent 65%);
 }
 
 .vacuum-grid-circle {
@@ -387,15 +375,14 @@ h1 {
 .vacuum-origin-point {
   stroke: white;
   stroke-width: 2;
-  transition:
-    cx 180ms ease,
-    cy 180ms ease;
+  transition: cx 180ms ease, cy 180ms ease;
 }
 
 .vacuum-explanation {
-  padding: 24px;
+  min-width: 0;
+  padding: 12px;
   border: 1px solid rgba(116, 237, 255, 0.14);
-  border-radius: 18px;
+  border-radius: 12px;
   background: rgba(7, 12, 28, 0.62);
   text-align: left;
 }
@@ -404,7 +391,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
 }
 
 .vacuum-explanation span,
@@ -412,25 +399,74 @@ h1 {
   color: #aeb8ce;
 }
 
+.vacuum-explanation span {
+  font-size: 0.68rem;
+}
+
 .vacuum-explanation strong {
   color: #74efff;
-  font-size: 2rem;
+  font-size: 1.15rem;
 }
 
 .vacuum-explanation p {
-  margin: 24px 0;
-  line-height: 1.7;
+  margin: 12px 0;
+  font-size: 0.7rem;
+  line-height: 1.5;
 }
 
 .vacuum-explanation code {
   color: #d7a7ff;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
+}
+
+.physics-grid {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.physics-card {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: 2px 8px;
+  padding: 11px 14px;
+  text-align: left;
+}
+
+.physics-card + .physics-card {
+  border-left: 1px solid rgba(116, 237, 255, 0.12);
+}
+
+.physics-card span {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  color: #aeb8ce;
+  font-size: 0.66rem;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.physics-card strong {
+  color: #78efff;
+  font-size: clamp(1rem, 1.55vw, 1.35rem);
+  line-height: 1.15;
+}
+
+.physics-card small {
+  align-self: end;
+  color: #dfa0ff;
+  font-size: 0.7rem;
 }
 
 .app-footer {
-  width: min(1000px, 92vw);
-  margin: 38px auto 0;
-  padding: 22px 0 0;
+  margin-top: 36px;
+  padding: 20px 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -438,43 +474,125 @@ h1 {
   gap: 10px 20px;
   border-top: 1px solid rgba(116, 237, 255, 0.14);
   color: #8f9bb3;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
 }
 
 .app-footer a {
   color: #74edff;
   text-underline-offset: 3px;
-  transition: color 180ms ease;
 }
 
 .app-footer a:hover {
   color: #d7a7ff;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 1100px) and (min-height: 700px) {
+  .dashboard {
+    min-height: calc(100dvh - 132px);
+  }
+}
+
+@media (max-width: 1099px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .controls-panel {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) minmax(190px, auto);
+    align-items: center;
+    gap: 18px;
+  }
+
+  .controls-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin: 0;
+  }
+
+  .control + .control {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .result {
+    margin: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-header {
+    grid-template-columns: 1fr;
+  }
+
+  .model-label {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 7px;
+  }
+
+  .controls-panel {
+    display: block;
+  }
+
+  .controls-list {
+    display: block;
+    margin-top: 20px;
+  }
+
+  .control + .control {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .result {
+    margin-top: 22px;
+  }
+
+  .visual-grid,
   .physics-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  .physics-card + .physics-card {
+    border-top: 1px solid rgba(116, 237, 255, 0.12);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 460px) {
+  .app {
+    padding-inline: 12px;
+  }
+
+  .title-row {
+    align-items: flex-start;
   }
 
   .vacuum-layout {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 600px) {
-  .plot-heading,
-  .equation-row {
+  .vacuum-explanation {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 12px;
+  }
+
+  .vacuum-explanation p {
+    grid-column: 1 / -1;
+  }
+
+  .equation-row,
+  .app-footer {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .app-footer {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-  .physics-grid {
-    grid-template-columns: 1fr;
+  .equation-row span {
+    text-align: left;
   }
 }
