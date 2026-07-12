@@ -86,11 +86,21 @@ h1 {
   cursor: pointer;
 }
 
+.control input:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
 .control + .control {
   margin-top: 28px;
 }
 
 .lambda-control {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.angle-control {
   padding-top: 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -298,9 +308,112 @@ h1 {
   color: #dfa0ff;
 }
 
+.vacuum-panel {
+  overflow: hidden;
+}
+
+.vacuum-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 1.2fr) minmax(220px, 0.8fr);
+  align-items: center;
+  gap: 30px;
+  margin-top: 16px;
+}
+
+.vacuum-svg {
+  display: block;
+  width: min(100%, 430px);
+  height: auto;
+  margin: auto;
+  border-radius: 18px;
+  background: radial-gradient(
+    circle,
+    rgba(124, 90, 255, 0.14),
+    transparent 65%
+  );
+}
+
+.vacuum-grid-circle {
+  fill: none;
+  stroke: rgba(170, 188, 220, 0.09);
+  stroke-width: 1;
+  stroke-dasharray: 4 7;
+}
+
+.vacuum-axis {
+  stroke: rgba(190, 207, 235, 0.2);
+  stroke-width: 1;
+}
+
+.vacuum-ring-glow {
+  fill: none;
+  stroke: rgba(193, 93, 255, 0.18);
+  stroke-width: 18;
+}
+
+.vacuum-ring {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.vacuum-selection-line {
+  stroke: rgba(255, 213, 104, 0.55);
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+}
+
+.vacuum-selected-point,
+.vacuum-origin-point {
+  stroke: white;
+  stroke-width: 2;
+  transition:
+    cx 180ms ease,
+    cy 180ms ease;
+}
+
+.vacuum-explanation {
+  padding: 24px;
+  border: 1px solid rgba(116, 237, 255, 0.14);
+  border-radius: 18px;
+  background: rgba(7, 12, 28, 0.62);
+  text-align: left;
+}
+
+.vacuum-explanation div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.vacuum-explanation span,
+.vacuum-explanation p {
+  color: #aeb8ce;
+}
+
+.vacuum-explanation strong {
+  color: #74efff;
+  font-size: 2rem;
+}
+
+.vacuum-explanation p {
+  margin: 24px 0;
+  line-height: 1.7;
+}
+
+.vacuum-explanation code {
+  color: #d7a7ff;
+  font-size: 1.2rem;
+}
+
 @media (max-width: 800px) {
   .physics-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .vacuum-layout {
+    grid-template-columns: 1fr;
   }
 }
 

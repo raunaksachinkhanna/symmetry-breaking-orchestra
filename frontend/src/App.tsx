@@ -2,10 +2,12 @@ import { useMemo, useState } from "react";
 import "./App.css";
 import { calculateModel } from "./physics/model";
 import { PotentialPlot } from "./components/PotentialPlot";
+import { VacuumManifold } from "./components/VacuumManifold";
 
 function App() {
   const [muSquared, setMuSquared] = useState(-1);
   const [lambda, setLambda] = useState(0.5);
+  const [vacuumAngle, setVacuumAngle] = useState(35);
 
   const model = useMemo(
     () =>
@@ -76,6 +78,33 @@ function App() {
           />
         </div>
 
+        <div className="control angle-control">
+          <div className="control-heading">
+            <label htmlFor="vacuum-angle">
+              Vacuum angle θ
+            </label>
+
+            <strong>
+              {isBroken
+                ? `${vacuumAngle.toFixed(0)}°`
+                : "Not selected"}
+            </strong>
+          </div>
+
+          <input
+            id="vacuum-angle"
+            type="range"
+            min="0"
+            max="360"
+            step="1"
+            value={vacuumAngle}
+            disabled={!isBroken}
+            onChange={(event) =>
+              setVacuumAngle(Number(event.target.value))
+            }
+          />
+        </div>
+
         <div className="result">
           <span>Current phase</span>
 
@@ -94,6 +123,12 @@ function App() {
         lambda={lambda}
         vacuumRadius={model.vacuumRadius}
         phase={model.phase}
+      />
+
+      <VacuumManifold
+        phase={model.phase}
+        vacuumRadius={model.vacuumRadius}
+        angleDegrees={vacuumAngle}
       />
 
       <section className="physics-grid">
