@@ -1,137 +1,114 @@
-.visual-panel {
-  width: min(1000px, 92vw);
-  margin: 24px auto 0;
-  padding: 26px;
-  border: 1px solid rgba(116, 237, 255, 0.2);
-  border-radius: 22px;
+.app {
+  min-height: 100vh;
+  padding: 56px 28px;
+  color: white;
+  text-align: center;
   background:
-    linear-gradient(
-      145deg,
-      rgba(7, 14, 31, 0.94),
-      rgba(18, 13, 42, 0.9)
-    );
-  box-shadow:
-    0 20px 55px rgba(0, 0, 0, 0.25),
-    0 0 35px rgba(108, 225, 255, 0.06);
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(15, 91, 112, 0.48),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(103, 28, 129, 0.45),
+      transparent 34%
+    ),
+    #050713;
 }
 
-.plot-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  text-align: left;
-}
-
-.plot-heading h2 {
-  margin: 5px 0 0;
-  font-size: 1.3rem;
-}
-
-.plot-label {
+.eyebrow {
   margin: 0;
-  color: #71ebff;
-  font-size: 0.72rem;
+  color: #74edff;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
-.phase-badge {
-  padding: 8px 13px;
-  border: 1px solid;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 700;
+h1 {
+  max-width: 950px;
+  margin: 18px auto;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 0.95;
+  background: linear-gradient(
+    90deg,
+    #70efff,
+    #9b8fff,
+    #ff7fca
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
-.broken-badge {
-  color: #ff83d2;
-  border-color: rgba(255, 118, 207, 0.38);
-  background: rgba(255, 118, 207, 0.08);
+.subtitle {
+  max-width: 700px;
+  margin: 20px auto 36px;
+  color: #b6c0d5;
+  font-size: 1.1rem;
+  line-height: 1.7;
 }
 
-.symmetric-badge {
-  color: #73efff;
-  border-color: rgba(115, 239, 255, 0.38);
-  background: rgba(115, 239, 255, 0.08);
+.panel {
+  width: min(700px, 92vw);
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid rgba(116, 237, 255, 0.25);
+  border-radius: 22px;
+  background: rgba(8, 14, 31, 0.86);
+  box-shadow: 0 0 45px rgba(96, 218, 255, 0.1);
 }
 
-.potential-svg {
-  width: 100%;
-  height: auto;
-  margin-top: 12px;
-  overflow: visible;
-  border-radius: 16px;
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(84, 82, 170, 0.12),
-      transparent 60%
-    );
-}
-
-.plot-axis {
-  stroke: rgba(200, 214, 240, 0.2);
-  stroke-width: 1;
-}
-
-.potential-line {
-  fill: none;
-  stroke: url("#potential-gradient");
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: url("#potential-glow");
-}
-
-.potential-glow-line {
-  fill: none;
-  stroke: rgba(164, 112, 255, 0.2);
-  stroke-width: 13;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.vacuum-marker {
-  fill: #ffd568;
-  stroke: white;
-  stroke-width: 2;
-}
-
-.vacuum-halo {
-  fill: rgba(255, 213, 104, 0.16);
-  stroke: rgba(255, 213, 104, 0.28);
-  stroke-width: 1;
-}
-
-.axis-label {
-  fill: #8f9bb4;
-  font-size: 12px;
-}
-
-.equation-row {
+.control-heading,
+.result {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
-  padding-top: 14px;
+  align-items: center;
+}
+
+.control-heading {
+  margin-bottom: 16px;
+}
+
+.control-heading label {
+  color: #d8deed;
+  font-weight: 600;
+}
+
+.control-heading strong {
+  color: #79efff;
+}
+
+.control input {
+  width: 100%;
+  accent-color: #a96dff;
+  cursor: pointer;
+}
+
+.control + .control {
+  margin-top: 28px;
+}
+
+.lambda-control {
+  padding-top: 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  text-align: left;
 }
 
-.equation-row code {
-  color: #d9b3ff;
+.result {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.equation-row span {
-  color: #8f9bb4;
-  font-size: 0.8rem;
+.result span {
+  color: #b9c3d7;
 }
 
-@media (max-width: 600px) {
-  .plot-heading,
-  .equation-row {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+.broken {
+  color: #ff76cf;
+}
+
+.symmetric {
+  color: #70efff;
 }
