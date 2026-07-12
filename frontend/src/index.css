@@ -11,6 +11,10 @@ body,
   font-family: Inter, Arial, sans-serif;
 }
 
+body {
+  background: #050713;
+}
+
 button,
 input {
   font: inherit;

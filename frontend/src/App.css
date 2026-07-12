@@ -1,14 +1,20 @@
 .app {
   min-height: 100vh;
-  display: grid;
-  place-content: center;
-  padding: 32px;
+  padding: 56px 28px;
   text-align: center;
-  background:
-    radial-gradient(circle at 20% 20%, #0b4051, transparent 35%),
-    radial-gradient(circle at 80% 75%, #411853, transparent 35%),
-    #050713;
   color: white;
+  background:
+    radial-gradient(
+      circle at 16% 18%,
+      rgba(19, 105, 126, 0.55),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 84% 78%,
+      rgba(104, 32, 130, 0.5),
+      transparent 34%
+    ),
+    #050713;
 }
 
 .eyebrow {
@@ -21,31 +27,40 @@
 }
 
 h1 {
-  max-width: 900px;
+  max-width: 950px;
   margin: 18px auto;
   font-size: clamp(3rem, 8vw, 6rem);
   line-height: 0.95;
-  background: linear-gradient(90deg, #70efff, #b78cff, #ff7fca);
+  background: linear-gradient(
+    90deg,
+    #70efff,
+    #9a91ff,
+    #ff7fca
+  );
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
 }
 
 .subtitle {
-  max-width: 650px;
-  margin: 10px auto 36px;
+  max-width: 700px;
+  margin: 20px auto 36px;
   color: #b5bfd3;
   font-size: 1.1rem;
   line-height: 1.7;
 }
 
 .panel {
-  width: min(650px, 90vw);
+  width: min(700px, 92vw);
   margin: auto;
   padding: 30px;
   border: 1px solid rgba(116, 237, 255, 0.25);
   border-radius: 22px;
   background: rgba(8, 14, 31, 0.82);
-  box-shadow: 0 0 45px rgba(96, 218, 255, 0.1);
+  box-shadow:
+    0 0 45px rgba(96, 218, 255, 0.1),
+    inset 0 0 24px rgba(109, 94, 255, 0.03);
+  backdrop-filter: blur(18px);
 }
 
 .control-heading,
@@ -56,12 +71,31 @@ h1 {
 }
 
 .control-heading {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
-input {
+.control-heading label {
+  color: #d8deed;
+  font-weight: 600;
+}
+
+.control-heading strong {
+  color: #79efff;
+}
+
+.control input {
   width: 100%;
-  accent-color: #ac73ff;
+  accent-color: #a96dff;
+  cursor: pointer;
+}
+
+.control + .control {
+  margin-top: 28px;
+}
+
+.lambda-control {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .result {
@@ -70,10 +104,81 @@ input {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.result span {
+  color: #b9c3d7;
+}
+
 .broken {
   color: #ff76cf;
 }
 
 .symmetric {
   color: #70efff;
+}
+
+.physics-grid {
+  width: min(1000px, 92vw);
+  margin: 24px auto 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.physics-card {
+  padding: 22px;
+  border: 1px solid rgba(116, 237, 255, 0.18);
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(14, 22, 46, 0.95),
+      rgba(24, 20, 52, 0.9)
+    );
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.22),
+    0 0 20px rgba(100, 225, 255, 0.04);
+  text-align: left;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+.physics-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(116, 237, 255, 0.42);
+}
+
+.physics-card span {
+  display: block;
+  min-height: 42px;
+  color: #aeb8ce;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.physics-card strong {
+  display: block;
+  margin: 12px 0 4px;
+  color: #78efff;
+  font-size: 2rem;
+}
+
+.physics-card small {
+  color: #dfa0ff;
+}
+
+@media (max-width: 800px) {
+  .app {
+    padding: 38px 18px;
+  }
+
+  .physics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .physics-grid {
+    grid-template-columns: 1fr;
+  }
 }
