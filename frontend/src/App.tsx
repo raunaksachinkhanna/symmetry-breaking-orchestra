@@ -19,6 +19,24 @@ function App() {
   );
 
   const isBroken = model.phase === "BROKEN";
+  const isCritical = model.phase === "CRITICAL";
+
+  const phaseLabel = isBroken
+    ? "Broken symmetry"
+    : isCritical
+      ? "Critical boundary"
+      : "Symmetric";
+
+  const phaseExplanation = isBroken
+    ? "A circle of equal-energy vacua appears, so the field selects a direction. Radial motion is massive while angular motion is the massless Goldstone mode."
+    : isCritical
+      ? "The vacuum remains at the origin, but the quadratic curvature vanishes. Both field modes are massless at this boundary."
+      : "The origin is the unique vacuum and the U(1) symmetry remains unbroken. The two field components are degenerate massive modes."
+
+  const applyPreset = (nextMuSquared: number) => {
+    setMuSquared(nextMuSquared);
+    setLambda(0.5);
+  };
 
   return (
     <main className="app">
@@ -40,6 +58,35 @@ function App() {
           <div className="panel-heading">
             <p>Parameters</p>
             <h2>Model controls</h2>
+          </div>
+
+          <div className="presets" aria-label="Phase presets">
+            <button
+              type="button"
+              className={model.phase === "SYMMETRIC" ? "active" : ""}
+              aria-pressed={model.phase === "SYMMETRIC"}
+              onClick={() => applyPreset(1)}
+            >
+              Symmetric
+            </button>
+
+            <button
+              type="button"
+              className={isCritical ? "active" : ""}
+              aria-pressed={isCritical}
+              onClick={() => applyPreset(0)}
+            >
+              Critical
+            </button>
+
+            <button
+              type="button"
+              className={isBroken ? "active" : ""}
+              aria-pressed={isBroken}
+              onClick={() => applyPreset(-1)}
+            >
+              Broken
+            </button>
           </div>
 
           <div className="controls-list">
@@ -106,8 +153,8 @@ function App() {
 
           <div className="result" aria-live="polite">
             <span>Current phase</span>
-            <strong className={isBroken ? "broken" : "symmetric"}>
-              {isBroken ? "Broken symmetry" : "Symmetric"}
+            <strong className={model.phase.toLowerCase()}>
+              {phaseLabel}
             </strong>
           </div>
         </aside>
@@ -142,16 +189,44 @@ function App() {
             </article>
 
             <article className="physics-card">
-              <span>Higgs-like mass</span>
+              <span>
+                {isBroken ? "Higgs-like radial mode" : "Field mode 1"}
+              </span>
               <strong>{model.higgsMass.toFixed(3)}</strong>
-              <small>mₕ</small>
+              <small>
+                {isBroken
+                  ? "mₕ · radial"
+                  : isCritical
+                    ? "m₁ · massless"
+                    : "m₁ · degenerate"}
+              </small>
             </article>
 
             <article className="physics-card">
-              <span>Goldstone mass</span>
+              <span>
+                {isBroken ? "Goldstone angular mode" : "Field mode 2"}
+              </span>
               <strong>{model.goldstoneMass.toFixed(3)}</strong>
-              <small>mᴳ</small>
+              <small>
+                {isBroken
+                  ? "mᴳ · angular"
+                  : isCritical
+                    ? "m₂ · massless"
+                    : "m₂ · degenerate"}
+              </small>
             </article>
+          </section>
+
+          <section className="live-explanation" aria-live="polite">
+            <div>
+              <strong>{phaseLabel}</strong>
+              <p>{phaseExplanation}</p>
+            </div>
+
+            <p className="scope-note">
+              Dimensionless classical toy model · Global U(1) symmetry · Not
+              the full Standard Model Higgs sector.
+            </p>
           </section>
         </div>
       </section>

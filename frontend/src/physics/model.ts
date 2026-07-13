@@ -1,4 +1,6 @@
-export type SymmetryPhase = "SYMMETRIC" | "BROKEN";
+export type SymmetryPhase = "SYMMETRIC" | "CRITICAL" | "BROKEN";
+
+const CRITICAL_TOLERANCE = 1e-9;
 
 export type ModelParameters = {
   muSquared: number;
@@ -23,7 +25,19 @@ export function calculateModel({
     throw new Error("Lambda must be greater than zero.");
   }
 
-  if (muSquared >= 0) {
+  if (Math.abs(muSquared) <= CRITICAL_TOLERANCE) {
+    return {
+      phase: "CRITICAL",
+      vacuumExpectationValue: 0,
+      vacuumRadius: 0,
+      higgsMassSquared: 0,
+      higgsMass: 0,
+      goldstoneMassSquared: 0,
+      goldstoneMass: 0,
+    };
+  }
+
+  if (muSquared > 0) {
     const mass = Math.sqrt(muSquared);
 
     return {

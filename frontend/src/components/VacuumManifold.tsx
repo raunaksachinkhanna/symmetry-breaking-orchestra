@@ -47,12 +47,16 @@ export function VacuumManifold({
           className={
             isBroken
               ? "phase-badge broken-badge"
-              : "phase-badge symmetric-badge"
+              : phase === "CRITICAL"
+                ? "phase-badge critical-badge"
+                : "phase-badge symmetric-badge"
           }
         >
           {isBroken
             ? `Selected angle: ${angleDegrees.toFixed(0)}°`
-            : "Unique vacuum"}
+            : phase === "CRITICAL"
+              ? "Critical origin"
+              : "Unique vacuum"}
         </span>
       </div>
 
@@ -64,7 +68,9 @@ export function VacuumManifold({
           aria-label={
             isBroken
               ? `Circular U(1) vacuum manifold with a selected vacuum at ${angleDegrees.toFixed(0)} degrees`
-              : "Symmetric U(1) phase with a unique vacuum at the origin"
+              : phase === "CRITICAL"
+                ? "Critical U(1) boundary with the vacuum at the origin and vanishing quadratic curvature"
+                : "Symmetric U(1) phase with a unique vacuum at the origin"
           }
         >
           <defs>
@@ -210,7 +216,9 @@ export function VacuumManifold({
           <p>
             {isBroken
               ? "Every point on this circle has the same minimum energy. The field selects one vacuum."
-              : "The field has one minimum at the origin, so no vacuum direction is selected."}
+              : phase === "CRITICAL"
+                ? "The vacuum remains at the origin while the quadratic curvature vanishes."
+                : "The field has one minimum at the origin, so no vacuum direction is selected."}
           </p>
 
           <code>

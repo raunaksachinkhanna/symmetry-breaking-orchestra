@@ -35,6 +35,13 @@ export function PotentialPlot({
   vacuumRadius,
   phase,
 }: PotentialPlotProps) {
+  const phaseLabel =
+    phase === "BROKEN"
+      ? "Broken symmetry"
+      : phase === "CRITICAL"
+        ? "Critical boundary"
+        : "Symmetric";
+
   const plot = useMemo(() => {
     const xLimit = Math.max(2.2, vacuumRadius * 1.8);
 
@@ -129,12 +136,12 @@ export function PotentialPlot({
           className={
             phase === "BROKEN"
               ? "phase-badge broken-badge"
-              : "phase-badge symmetric-badge"
+              : phase === "CRITICAL"
+                ? "phase-badge critical-badge"
+                : "phase-badge symmetric-badge"
           }
         >
-          {phase === "BROKEN"
-            ? "Broken symmetry"
-            : "Symmetric"}
+          {phaseLabel}
         </span>
       </div>
 
