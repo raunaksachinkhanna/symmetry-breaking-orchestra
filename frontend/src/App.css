@@ -1,5 +1,4 @@
 .app {
-  min-height: 100vh;
   padding: 18px clamp(16px, 2.2vw, 34px) 24px;
   color: white;
   background:
@@ -11,7 +10,7 @@
 .app-header,
 .dashboard,
 .app-footer {
-  width: min(1540px, 100%);
+  width: min(1420px, 100%);
   margin-inline: auto;
 }
 
@@ -562,9 +561,86 @@ h1 {
   color: #d7a7ff;
 }
 
-@media (min-width: 1100px) and (min-height: 700px) {
+@media (min-width: 1201px) {
+  .app {
+    padding-top: 14px;
+  }
+
+  .app-header {
+    min-height: 82px;
+    padding-bottom: 11px;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 2.15vw, 2.28rem);
+  }
+
   .dashboard {
-    min-height: calc(100dvh - 132px);
+    grid-template-columns: clamp(270px, 20vw, 300px) minmax(0, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .controls-panel {
+    padding: 17px;
+  }
+
+  .presets {
+    margin-top: 14px;
+  }
+
+  .controls-list {
+    margin-top: 18px;
+  }
+
+  .control + .control {
+    margin-top: 18px;
+    padding-top: 16px;
+  }
+
+  .result {
+    margin-top: 20px;
+    padding: 13px;
+  }
+
+  .workspace,
+  .visual-grid {
+    gap: 10px;
+  }
+
+  .visual-panel {
+    padding: 14px;
+  }
+
+  .plot-heading {
+    min-height: 36px;
+  }
+
+  .potential-svg {
+    margin-top: 6px;
+  }
+
+  .vacuum-layout {
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  .vacuum-svg {
+    width: min(100%, 260px);
+  }
+
+  .physics-card {
+    padding: 9px 12px;
+  }
+
+  .live-explanation {
+    gap: 12px;
+    padding: 9px 12px;
+  }
+
+  .app-footer {
+    margin-top: 24px;
+    padding-top: 16px;
   }
 }
 
