@@ -75,6 +75,41 @@ h1 {
   line-height: 1.45;
 }
 
+.view-switcher {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.view-switcher button {
+  padding: 7px 14px;
+  border: 1px solid rgba(116, 237, 255, 0.18);
+  border-radius: 8px;
+  color: #aeb8ce;
+  background: rgba(8, 14, 31, 0.74);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 700;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.view-switcher button:hover {
+  color: #f5f7ff;
+  border-color: rgba(116, 237, 255, 0.42);
+}
+
+.view-switcher button:focus-visible {
+  outline: 2px solid #74edff;
+  outline-offset: 2px;
+}
+
+.view-switcher button.active {
+  color: #74edff;
+  border-color: rgba(116, 237, 255, 0.52);
+  background: rgba(116, 237, 255, 0.09);
+}
+
 .dashboard {
   display: grid;
   grid-template-columns: clamp(280px, 22vw, 320px) minmax(0, 1fr);

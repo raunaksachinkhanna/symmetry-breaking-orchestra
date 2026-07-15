@@ -3,8 +3,12 @@ import "./App.css";
 import { calculateModel } from "./physics/model";
 import { PotentialPlot } from "./components/PotentialPlot";
 import { VacuumManifold } from "./components/VacuumManifold";
+import { AcademicLearningPath } from "./components/learning/AcademicLearningPath";
+
+type AppView = "lab" | "learn";
 
 function App() {
+  const [view, setView] = useState<AppView>("learn");
   const [muSquared, setMuSquared] = useState(-1);
   const [lambda, setLambda] = useState(0.5);
   const [vacuumAngle, setVacuumAngle] = useState(35);
@@ -46,13 +50,40 @@ function App() {
           <span className="alpha-badge">Alpha</span>
         </div>
 
-        <p className="model-label">Global U(1) educational model</p>
+        <p className="model-label">
+          {view === "lab" ? "Global U(1) educational model" : "Concept-dependency curriculum"}
+        </p>
+
+        <nav className="view-switcher" aria-label="Application section">
+          <button
+            type="button"
+            className={view === "learn" ? "active" : ""}
+            aria-pressed={view === "learn"}
+            onClick={() => setView("learn")}
+          >
+            Academic Learning Path
+          </button>
+
+          <button
+            type="button"
+            className={view === "lab" ? "active" : ""}
+            aria-pressed={view === "lab"}
+            onClick={() => setView("lab")}
+          >
+            Interactive Laboratory
+          </button>
+        </nav>
 
         <p className="subtitle">
-          Explore how field parameters reshape the vacuum and particle spectrum.
+          {view === "lab"
+            ? "Explore how field parameters reshape the vacuum and particle spectrum."
+            : "A concept-dependency course in field theory, building from why fields are needed to how symmetry breaking and the Higgs mechanism arise."}
         </p>
       </header>
 
+      {view === "learn" && <AcademicLearningPath />}
+
+      {view === "lab" && (
       <section className="dashboard" aria-label="Interactive physics dashboard">
         <aside className="panel controls-panel" aria-label="Model controls">
           <div className="panel-heading">
@@ -230,6 +261,7 @@ function App() {
           </section>
         </div>
       </section>
+      )}
 
       <footer className="app-footer">
         <span>Global U(1) educational model</span>
