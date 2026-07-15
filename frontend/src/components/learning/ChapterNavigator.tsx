@@ -1,4 +1,5 @@
 import { CHAPTERS, LESSON_NODES } from "../../data/academicLearningPath";
+import { domainForChapter } from "./chapterVisuals";
 
 type ChapterNavigatorProps = {
   currentLessonNumber: number;
@@ -26,7 +27,11 @@ export function ChapterNavigator({
             }
           >
             <div className="chapter-card-heading">
-              <span className={`chapter-letter chapter-${chapter.id}`}>
+              <span
+                className="chapter-letter"
+                data-domain={domainForChapter(chapter.id)}
+                data-status={chapter.status}
+              >
                 {chapter.id}
               </span>
               <div>

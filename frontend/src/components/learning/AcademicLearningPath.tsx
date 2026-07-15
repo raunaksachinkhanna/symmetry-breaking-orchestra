@@ -7,9 +7,13 @@ import { LessonView } from "./LessonView";
 import { PrerequisiteMap } from "./PrerequisiteMap";
 
 const FIRST_LESSON = 1;
-const LAST_IMPLEMENTED_LESSON = 6;
+const LAST_IMPLEMENTED_LESSON = 21;
 
-export function AcademicLearningPath() {
+type AcademicLearningPathProps = {
+  onOpenLaboratory: () => void;
+};
+
+export function AcademicLearningPath({ onOpenLaboratory }: AcademicLearningPathProps) {
   const [lessonNumber, setLessonNumber] = useState(FIRST_LESSON);
   const [depth, setDepth] = useState<DepthLevel>("intuition");
   const [mapOpen, setMapOpen] = useState(false);
@@ -38,6 +42,7 @@ export function AcademicLearningPath() {
           onDepthChange={setDepth}
           onNavigate={handleNavigate}
           onOpenMap={() => setMapOpen(true)}
+          onOpenLaboratory={onOpenLaboratory}
           canGoPrev={lessonNumber > FIRST_LESSON}
           canGoNext={lessonNumber < LAST_IMPLEMENTED_LESSON}
         />

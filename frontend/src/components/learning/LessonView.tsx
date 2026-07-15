@@ -1,11 +1,14 @@
 import { LESSON_NODES } from "../../data/academicLearningPath";
 import type { DepthLevel, Lesson } from "../../types/learning";
 import { DepthSelector } from "./DepthSelector";
+import { FrontierClaims } from "./FrontierClaims";
 import { MathematicalBridge } from "./MathematicalBridge";
 import { MisconceptionCard } from "./MisconceptionCard";
 import { SourceNotes } from "./SourceNotes";
 import { UnderstandingCheck } from "./UnderstandingCheck";
 import { DiscretizedStringDemo } from "./interactive/DiscretizedStringDemo";
+import { FourierModesDemo } from "./interactive/FourierModesDemo";
+import { GaugeComparisonDemo } from "./interactive/GaugeComparisonDemo";
 import { NaturalUnitsToggle } from "./interactive/NaturalUnitsToggle";
 import { VariationBumpDemo } from "./interactive/VariationBumpDemo";
 
@@ -15,6 +18,7 @@ type LessonViewProps = {
   onDepthChange: (depth: DepthLevel) => void;
   onNavigate: (lessonNumber: number) => void;
   onOpenMap: () => void;
+  onOpenLaboratory: () => void;
   canGoPrev: boolean;
   canGoNext: boolean;
 };
@@ -33,6 +37,7 @@ export function LessonView({
   onDepthChange,
   onNavigate,
   onOpenMap,
+  onOpenLaboratory,
   canGoPrev,
   canGoNext,
 }: LessonViewProps) {
@@ -85,6 +90,8 @@ export function LessonView({
         <p>{lesson.whyWeNeedThis}</p>
       </section>
 
+      {lesson.frontierClaims && <FrontierClaims claims={lesson.frontierClaims} />}
+
       <DepthSelector depth={depth} onChange={onDepthChange} />
 
       <div className="depth-panels">
@@ -106,8 +113,16 @@ export function LessonView({
               </div>
             )}
 
-            {lesson.interactive?.kind === "discretized-string" && <DiscretizedStringDemo />}
-            {lesson.interactive?.kind === "variation-bump" && <VariationBumpDemo />}
+            {lesson.interactive?.kind === "discretized-string" && (
+              <DiscretizedStringDemo key={lesson.id} />
+            )}
+            {lesson.interactive?.kind === "variation-bump" && (
+              <VariationBumpDemo key={lesson.id} />
+            )}
+            {lesson.interactive?.kind === "fourier-modes" && <FourierModesDemo key={lesson.id} />}
+            {lesson.interactive?.kind === "gauge-dof-comparison" && (
+              <GaugeComparisonDemo key={lesson.id} />
+            )}
           </div>
         )}
 
@@ -119,7 +134,9 @@ export function LessonView({
             aria-labelledby="depth-tab-bridge"
           >
             <MathematicalBridge content={lesson.mathematicalBridge}>
-              {lesson.interactive?.kind === "natural-units-toggle" && <NaturalUnitsToggle />}
+              {lesson.interactive?.kind === "natural-units-toggle" && (
+                <NaturalUnitsToggle key={lesson.id} />
+              )}
             </MathematicalBridge>
           </div>
         )}
@@ -193,12 +210,12 @@ export function LessonView({
 
       <MisconceptionCard misconception={lesson.misconception} />
 
-      <UnderstandingCheck check={lesson.understandingCheck} />
+      <UnderstandingCheck key={lesson.id} check={lesson.understandingCheck} />
 
       <section className="transfer-question">
         <p className="section-label">Transfer question</p>
         <p>{lesson.transferQuestion.prompt}</p>
-        <details>
+        <details key={lesson.id}>
           <summary>Reveal a sample answer</summary>
           <p>{lesson.transferQuestion.answer}</p>
         </details>
@@ -208,6 +225,27 @@ export function LessonView({
         <p className="section-label">Next inevitable question</p>
         <p>{lesson.nextQuestion}</p>
       </section>
+
+      {lesson.labConnection && (
+        <section className="lab-connection-card">
+          <p className="section-label">Laboratory connection</p>
+          <p>{lesson.labConnection.sentence}</p>
+          <button type="button" className="lab-connection-button" onClick={onOpenLaboratory}>
+            {lesson.labConnection.buttonLabel}
+          </button>
+        </section>
+      )}
+
+      {lesson.plannedLabConnection && (
+        <section className="lab-connection-card planned" aria-label="Planned laboratory, not yet available">
+          <p className="section-label">Laboratory connection · planned</p>
+          <p>{lesson.plannedLabConnection.sentence}</p>
+          <button type="button" className="lab-connection-button planned" disabled>
+            {lesson.plannedLabConnection.buttonLabel}
+          </button>
+          <p className="planned-lab-note">{lesson.plannedLabConnection.explanation}</p>
+        </section>
+      )}
 
       <SourceNotes references={lesson.references} />
 

@@ -96,7 +96,38 @@ export type SourceReference = {
 export type InteractiveWidget =
   | { kind: "discretized-string" }
   | { kind: "variation-bump" }
-  | { kind: "natural-units-toggle" };
+  | { kind: "natural-units-toggle" }
+  | { kind: "fourier-modes" }
+  | { kind: "gauge-dof-comparison" };
+
+/** An optional, lesson-specific call-to-action that sends the learner into
+ * the existing interactive laboratory, reusing the app's own view switcher
+ * state rather than navigating away. Used by Lesson 15 (introduction) and
+ * Lesson 21 (consolidation). */
+export type LabConnection = {
+  sentence: string;
+  buttonLabel: string;
+};
+
+/** A placeholder card advertising a future laboratory that does not exist
+ * yet. Deliberately a distinct type from LabConnection: it never navigates
+ * anywhere, and its button is rendered disabled. Only Lesson 18 uses this
+ * in Phase 3. */
+export type PlannedLabConnection = {
+  sentence: string;
+  buttonLabel: string;
+  explanation: string;
+};
+
+/** How settled a claim is, for lessons (only Lesson 21 in Phase 3) that
+ * must visibly distinguish established results from open research
+ * questions and from more speculative ideas. */
+export type EpistemicStatus = "established" | "open-question" | "speculative";
+
+export type FrontierClaim = {
+  status: EpistemicStatus;
+  statement: string;
+};
 
 export type Lesson = {
   id: string;
@@ -117,6 +148,9 @@ export type Lesson = {
   references: SourceReference[];
   prerequisites: number[];
   interactive?: InteractiveWidget;
+  labConnection?: LabConnection;
+  plannedLabConnection?: PlannedLabConnection;
+  frontierClaims?: FrontierClaim[];
 };
 
 /** A node in the full 21-lesson dependency graph. Lessons outside Phase 1

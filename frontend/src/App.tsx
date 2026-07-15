@@ -81,7 +81,9 @@ function App() {
         </p>
       </header>
 
-      {view === "learn" && <AcademicLearningPath />}
+      {view === "learn" && (
+        <AcademicLearningPath onOpenLaboratory={() => setView("lab")} />
+      )}
 
       {view === "lab" && (
       <section className="dashboard" aria-label="Interactive physics dashboard">

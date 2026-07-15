@@ -1,6 +1,8 @@
 .learning-path {
   --cyan: #74edff;
   --cyan-soft: rgba(116, 237, 255, 0.2);
+  --cyan-violet: #89baff;
+  --cyan-violet-soft: rgba(137, 186, 255, 0.22);
   --violet: #a96dff;
   --violet-soft: rgba(169, 109, 255, 0.22);
   --magenta: #ff76cf;
@@ -55,26 +57,45 @@
   font-size: 0.78rem;
   font-weight: 800;
   border: 1px solid;
+  transition: opacity 160ms ease, filter 160ms ease;
 }
 
-.chapter-A,
-.chapter-B,
-.chapter-C {
+/* Domain color is a fixed property of each chapter's physics (cyan for
+   foundational structure, violet for symmetry, magenta for vacuum/Higgs
+   concepts). Status (available vs in-development) is layered on top as a
+   dimming effect, so a later phase only needs to flip data-status. */
+.chapter-letter[data-domain="cyan"],
+.map-chapter-letter[data-domain="cyan"] {
   color: var(--cyan);
   border-color: rgba(116, 237, 255, 0.4);
   background: var(--cyan-soft);
 }
 
-.chapter-D {
+.chapter-letter[data-domain="cyan-violet"],
+.map-chapter-letter[data-domain="cyan-violet"] {
+  color: var(--cyan-violet);
+  border-color: rgba(137, 186, 255, 0.45);
+  background: linear-gradient(135deg, var(--cyan-soft), var(--cyan-violet-soft));
+}
+
+.chapter-letter[data-domain="violet"],
+.map-chapter-letter[data-domain="violet"] {
   color: var(--violet);
   border-color: rgba(169, 109, 255, 0.42);
   background: var(--violet-soft);
 }
 
-.chapter-E {
+.chapter-letter[data-domain="magenta"],
+.map-chapter-letter[data-domain="magenta"] {
   color: var(--magenta);
   border-color: rgba(255, 118, 207, 0.42);
   background: var(--magenta-soft);
+}
+
+.chapter-letter[data-status="in-development"],
+.map-chapter-letter[data-status="in-development"] {
+  opacity: 0.45;
+  filter: saturate(0.55);
 }
 
 .chapter-title {
@@ -595,6 +616,225 @@
   line-height: 1.5;
 }
 
+/* ---------- Laboratory connection ---------- */
+
+.lab-connection-card {
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 118, 207, 0.32);
+  border-radius: 13px;
+  background: linear-gradient(120deg, rgba(169, 109, 255, 0.09), rgba(255, 118, 207, 0.09));
+  display: grid;
+  gap: 10px;
+}
+
+.lab-connection-card p:not(.section-label) {
+  margin: 0;
+  color: var(--heading-text);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.lab-connection-button {
+  justify-self: start;
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 118, 207, 0.45);
+  border-radius: 10px;
+  background: var(--magenta-soft);
+  color: var(--magenta);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.lab-connection-button:hover {
+  border-color: rgba(255, 118, 207, 0.7);
+  background: rgba(255, 118, 207, 0.16);
+}
+
+.lab-connection-button:focus-visible {
+  outline: 2px solid var(--magenta);
+  outline-offset: 2px;
+}
+
+.lab-connection-card.planned {
+  border-color: rgba(255, 118, 207, 0.18);
+  background: rgba(255, 118, 207, 0.04);
+  opacity: 0.82;
+}
+
+.lab-connection-button.planned {
+  cursor: not-allowed;
+  color: #8793aa;
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.lab-connection-button.planned:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.planned-lab-note {
+  margin: 0;
+  color: #8793aa;
+  font-size: 0.74rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ---------- Frontier claims (established / open / speculative) ---------- */
+
+.frontier-claims {
+  padding: 14px 16px;
+  border: 1px solid var(--panel-border);
+  border-radius: 13px;
+  background: rgba(7, 12, 28, 0.62);
+}
+
+.frontier-claim-list {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.frontier-claim {
+  display: grid;
+  gap: 6px;
+}
+
+.frontier-claim p {
+  margin: 0;
+  color: var(--body-text);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.frontier-status-pill {
+  justify-self: start;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid;
+  font-size: 0.64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.frontier-established {
+  color: var(--cyan);
+  border-color: rgba(116, 237, 255, 0.4);
+  background: var(--cyan-soft);
+}
+
+.frontier-open-question {
+  color: var(--violet);
+  border-color: rgba(169, 109, 255, 0.42);
+  background: var(--violet-soft);
+}
+
+.frontier-speculative {
+  color: var(--magenta);
+  border-color: rgba(255, 118, 207, 0.42);
+  background: var(--magenta-soft);
+}
+
+/* ---------- Gauge comparison (global vs. gauged U(1)) ---------- */
+
+.gauge-comparison-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.gauge-comparison-column {
+  padding: 12px 14px;
+  border: 1px solid var(--panel-border);
+  border-radius: 11px;
+  background: rgba(7, 12, 28, 0.5);
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.gauge-comparison-column-title {
+  margin: 0;
+  color: var(--heading-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.gauge-chip-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.gauge-chip {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid rgba(116, 237, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(8, 14, 31, 0.74);
+  color: var(--body-text);
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.gauge-chip:hover {
+  border-color: rgba(116, 237, 255, 0.45);
+}
+
+.gauge-chip:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.gauge-chip.muted {
+  color: #8793aa;
+  border-style: dashed;
+  border-color: rgba(169, 109, 255, 0.3);
+}
+
+.gauge-chip-detail {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(169, 109, 255, 0.08);
+  color: var(--body-text);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.gauge-comparison-total {
+  margin: 0;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--cyan);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.gauge-comparison-summary {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 118, 207, 0.25);
+  border-radius: 10px;
+  background: var(--magenta-soft);
+  color: var(--heading-text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+}
+
 /* ---------- Source notes ---------- */
 
 .source-notes summary {
@@ -1083,6 +1323,56 @@
   white-space: pre;
 }
 
+.fourier-modes-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: radial-gradient(circle at center, rgba(84, 82, 170, 0.12), transparent 65%);
+}
+
+.fourier-mode-path {
+  fill: none;
+  stroke-width: 1.5;
+  transition: opacity 160ms ease;
+}
+
+.fourier-composed-path {
+  fill: none;
+  stroke: white;
+  stroke-width: 2.5;
+}
+
+.fourier-mode-controls {
+  display: grid;
+  gap: 8px;
+}
+
+.fourier-mode-row label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.fourier-mode-row label strong {
+  color: var(--body-text);
+  font-weight: 700;
+}
+
+.fourier-mode-row input[type="range"] {
+  width: 100%;
+  accent-color: currentColor;
+  cursor: pointer;
+}
+
+.fourier-mode-row input[type="range"]:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 4px;
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 760px) {
@@ -1091,6 +1381,10 @@
   }
 
   .map-chapter-row {
+    grid-template-columns: 1fr;
+  }
+
+  .gauge-comparison-columns {
     grid-template-columns: 1fr;
   }
 

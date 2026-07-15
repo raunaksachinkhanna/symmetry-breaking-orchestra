@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CHAPTERS, LESSON_NODES } from "../../data/academicLearningPath";
 import type { LessonNode } from "../../types/learning";
+import { domainForChapter } from "./chapterVisuals";
 
 type PrerequisiteMapProps = {
   currentLessonNumber: number;
@@ -57,7 +58,11 @@ export function PrerequisiteMap({
             return (
               <div key={chapter.id} className="map-chapter-row">
                 <div className="map-chapter-label">
-                  <span className={`map-chapter-letter chapter-${chapter.id}`}>
+                  <span
+                    className="map-chapter-letter"
+                    data-domain={domainForChapter(chapter.id)}
+                    data-status={chapter.status}
+                  >
                     {chapter.id}
                   </span>
                   <span className="map-chapter-title">{chapter.title}</span>
