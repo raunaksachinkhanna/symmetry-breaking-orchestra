@@ -7,10 +7,21 @@
   --violet-soft: rgba(169, 109, 255, 0.22);
   --magenta: #ff76cf;
   --magenta-soft: rgba(255, 118, 207, 0.22);
-  --panel-bg: linear-gradient(145deg, rgba(7, 14, 31, 0.94), rgba(18, 13, 42, 0.9));
-  --panel-border: rgba(116, 237, 255, 0.2);
+
+  /* Neutral system. Nearly everything in the learning path reads off these
+     — color is reserved for: chapter domain (home cards, map, breadcrumb,
+     one left-border accent per open lesson, the active depth tab),
+     understanding-check correct/incorrect feedback, and the two lessons
+     that use color to encode actual data (Fourier modes, Lesson 21's
+     established/open/speculative pills). Everything else is neutral. */
+  --panel-bg: linear-gradient(145deg, rgba(9, 13, 26, 0.94), rgba(12, 15, 26, 0.92));
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --panel-border-strong: rgba(255, 255, 255, 0.16);
   --body-text: #b9c3d7;
   --heading-text: #f5f7ff;
+  --muted-text: #8793aa;
+  --code-text: #d7deee;
+  --code-bg: rgba(6, 9, 18, 0.7);
 
   width: min(1420px, 100%);
   margin: 14px auto 0;
@@ -22,28 +33,98 @@
   min-width: 0;
 }
 
-/* ---------- Chapter navigator ---------- */
+/* ---------- Curriculum home ---------- */
 
-.chapter-navigator {
+.curriculum-home {
+  display: grid;
+  gap: 22px;
+}
+
+.curriculum-intro {
+  max-width: 68ch;
+}
+
+.curriculum-eyebrow {
+  margin: 0;
+  color: var(--muted-text);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.curriculum-heading {
+  margin: 6px 0 0;
+  color: var(--heading-text);
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  line-height: 1.3;
+}
+
+.curriculum-description {
+  margin: 10px 0 0;
+  color: var(--body-text);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.chapter-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 10px;
+  gap: 12px;
 }
 
 .chapter-card {
-  padding: 14px 16px;
+  width: 100%;
+  padding: 16px 18px;
   border: 1px solid var(--panel-border);
+  border-top: 3px solid transparent;
   border-radius: 14px;
   background: var(--panel-bg);
+  text-align: left;
+  cursor: pointer;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.chapter-card:hover:not(:disabled) {
+  border-color: var(--panel-border-strong);
+}
+
+.chapter-card:focus-visible {
+  outline: 2px solid var(--heading-text);
+  outline-offset: 2px;
+}
+
+.chapter-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.chapter-card[data-domain="cyan"] {
+  border-top-color: var(--cyan);
+}
+
+.chapter-card[data-domain="cyan-violet"] {
+  border-top-color: var(--cyan-violet);
+}
+
+.chapter-card[data-domain="violet"] {
+  border-top-color: var(--violet);
+}
+
+.chapter-card[data-domain="magenta"] {
+  border-top-color: var(--magenta);
 }
 
 .chapter-card.locked {
-  opacity: 0.72;
+  border-top-color: var(--panel-border);
 }
 
 .chapter-card-heading {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
 }
 
@@ -63,30 +144,37 @@
 /* Domain color is a fixed property of each chapter's physics (cyan for
    foundational structure, violet for symmetry, magenta for vacuum/Higgs
    concepts). Status (available vs in-development) is layered on top as a
-   dimming effect, so a later phase only needs to flip data-status. */
+   dimming effect, so a later phase only needs to flip data-status. This is
+   deliberately one of the few places color is used throughout the learning
+   path: chapter identity on the home grid, the prerequisite map, and (in a
+   lesson) the breadcrumb + a single left-border accent. */
 .chapter-letter[data-domain="cyan"],
-.map-chapter-letter[data-domain="cyan"] {
+.map-chapter-letter[data-domain="cyan"],
+.breadcrumb-chapter-letter[data-domain="cyan"] {
   color: var(--cyan);
   border-color: rgba(116, 237, 255, 0.4);
   background: var(--cyan-soft);
 }
 
 .chapter-letter[data-domain="cyan-violet"],
-.map-chapter-letter[data-domain="cyan-violet"] {
+.map-chapter-letter[data-domain="cyan-violet"],
+.breadcrumb-chapter-letter[data-domain="cyan-violet"] {
   color: var(--cyan-violet);
   border-color: rgba(137, 186, 255, 0.45);
   background: linear-gradient(135deg, var(--cyan-soft), var(--cyan-violet-soft));
 }
 
 .chapter-letter[data-domain="violet"],
-.map-chapter-letter[data-domain="violet"] {
+.map-chapter-letter[data-domain="violet"],
+.breadcrumb-chapter-letter[data-domain="violet"] {
   color: var(--violet);
   border-color: rgba(169, 109, 255, 0.42);
   background: var(--violet-soft);
 }
 
 .chapter-letter[data-domain="magenta"],
-.map-chapter-letter[data-domain="magenta"] {
+.map-chapter-letter[data-domain="magenta"],
+.breadcrumb-chapter-letter[data-domain="magenta"] {
   color: var(--magenta);
   border-color: rgba(255, 118, 207, 0.42);
   background: var(--magenta-soft);
@@ -101,123 +189,198 @@
 .chapter-title {
   margin: 0;
   color: var(--heading-text);
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   font-weight: 700;
 }
 
 .chapter-status {
-  margin: 2px 0 0;
-  color: #8793aa;
+  margin: 0;
+  color: var(--muted-text);
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
-.chapter-lesson-pips {
+.chapter-meta {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
+  align-items: center;
+  gap: 10px;
 }
 
-.lesson-pip {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  border: 1px solid rgba(116, 237, 255, 0.18);
-  background: rgba(8, 14, 31, 0.74);
-  color: #aeb8ce;
-  font-size: 0.76rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+.chapter-lesson-count {
+  color: var(--muted-text);
+  font-size: 0.74rem;
 }
 
-.lesson-pip:hover {
-  color: var(--heading-text);
-  border-color: rgba(116, 237, 255, 0.42);
+.chapter-dots {
+  display: flex;
+  gap: 4px;
 }
 
-.lesson-pip.active {
-  color: var(--cyan);
-  border-color: rgba(116, 237, 255, 0.55);
-  background: var(--cyan-soft);
+.chapter-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--panel-border-strong);
 }
 
 .chapter-guiding-question {
-  margin: 12px 0 0;
+  margin: 0;
   color: var(--body-text);
   font-size: 0.78rem;
   font-style: italic;
   line-height: 1.5;
 }
 
+/* ---------- Lesson breadcrumb ---------- */
+
+.lesson-view-wrapper {
+  display: grid;
+  gap: 14px;
+}
+
+.lesson-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 8px 4px;
+  border-bottom: 1px solid var(--panel-border);
+  font-size: 0.78rem;
+}
+
+.breadcrumb-home-button,
+.breadcrumb-chapter-button {
+  padding: 4px 2px;
+  border: 0;
+  background: none;
+  color: var(--muted-text);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.breadcrumb-home-button:hover,
+.breadcrumb-chapter-button:hover {
+  color: var(--heading-text);
+}
+
+.breadcrumb-home-button:focus-visible,
+.breadcrumb-chapter-button:focus-visible,
+.breadcrumb-nav-button:focus-visible {
+  outline: 2px solid var(--heading-text);
+  outline-offset: 2px;
+}
+
+.breadcrumb-chapter-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb-chapter-letter {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  border: 1px solid;
+}
+
+.breadcrumb-chapter-title {
+  color: var(--body-text);
+}
+
+.breadcrumb-chapter-button:hover .breadcrumb-chapter-title {
+  color: var(--heading-text);
+}
+
+.breadcrumb-progress {
+  margin-left: auto;
+  color: var(--muted-text);
+  font-size: 0.72rem;
+}
+
+.breadcrumb-nav-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.breadcrumb-nav-button {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--panel-border);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--body-text);
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.breadcrumb-nav-button:hover:not(:disabled) {
+  border-color: var(--panel-border-strong);
+  color: var(--heading-text);
+}
+
+.breadcrumb-nav-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 /* ---------- Lesson view ---------- */
 
 .lesson-view {
-  padding: 22px clamp(16px, 3vw, 30px);
+  padding: 24px clamp(16px, 3vw, 32px);
   border: 1px solid var(--panel-border);
-  border-radius: 18px;
+  border-left: 3px solid transparent;
+  border-radius: 16px;
   background: var(--panel-bg);
-  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.24), 0 0 28px rgba(108, 225, 255, 0.05);
   text-align: left;
   display: grid;
-  gap: 20px;
+  gap: 28px;
 }
 
-.lesson-meta-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+.lesson-view[data-domain="cyan"] {
+  border-left-color: var(--cyan);
 }
 
-.lesson-location {
-  color: var(--cyan);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.lesson-view[data-domain="cyan-violet"] {
+  border-left-color: var(--cyan-violet);
+}
+
+.lesson-view[data-domain="violet"] {
+  border-left-color: var(--violet);
+}
+
+.lesson-view[data-domain="magenta"] {
+  border-left-color: var(--magenta);
+}
+
+.lesson-header {
+  display: grid;
+  gap: 6px;
 }
 
 .scope-badge {
-  flex: none;
+  justify-self: start;
   padding: 5px 10px;
   border-radius: 999px;
-  border: 1px solid;
+  border: 1px solid var(--panel-border-strong);
+  color: var(--muted-text);
   font-size: 0.62rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.scope-classical {
-  color: var(--cyan);
-  border-color: rgba(116, 237, 255, 0.4);
-  background: var(--cyan-soft);
-}
-
-.scope-quantum,
-.scope-gauge-theory {
-  color: #ffd568;
-  border-color: rgba(255, 213, 104, 0.4);
-  background: rgba(255, 213, 104, 0.1);
-}
-
-.scope-global-symmetry {
-  color: var(--violet);
-  border-color: rgba(169, 109, 255, 0.42);
-  background: var(--violet-soft);
-}
-
-.scope-standard-model {
-  color: var(--magenta);
-  border-color: rgba(255, 118, 207, 0.42);
-  background: var(--magenta-soft);
-}
-
 .lesson-question {
-  margin: 4px 0 0;
+  margin: 2px 0 0;
   color: var(--heading-text);
   font-size: clamp(1.2rem, 2vw, 1.55rem);
   line-height: 1.25;
@@ -225,14 +388,14 @@
 }
 
 .lesson-title {
-  margin: 2px 0 0;
-  color: #8793aa;
+  margin: 0;
+  color: var(--muted-text);
   font-size: 0.78rem;
 }
 
 .lesson-prerequisites {
-  margin: 10px 0 0;
-  color: #8793aa;
+  margin: 0;
+  color: var(--muted-text);
   font-size: 0.74rem;
 }
 
@@ -240,28 +403,32 @@
   padding: 0;
   border: 0;
   background: none;
-  color: var(--cyan);
+  color: var(--body-text);
   cursor: pointer;
   font-size: inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
+.prerequisite-link:hover {
+  color: var(--heading-text);
+}
+
 .prerequisite-link:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
 .big-idea-card {
-  padding: 14px 16px;
-  border: 1px solid rgba(169, 109, 255, 0.28);
+  padding: 16px 18px;
+  border: 1px solid var(--panel-border);
   border-radius: 13px;
-  background: var(--violet-soft);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .big-idea-label {
-  margin: 0 0 4px;
-  color: var(--violet);
+  margin: 0 0 6px;
+  color: var(--muted-text);
   font-size: 0.64rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -271,13 +438,13 @@
 .big-idea-text {
   margin: 0;
   color: var(--heading-text);
-  font-size: 0.94rem;
-  line-height: 1.5;
+  font-size: 0.98rem;
+  line-height: 1.55;
 }
 
 .section-label {
   margin: 0 0 6px;
-  color: var(--cyan);
+  color: var(--muted-text);
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -303,28 +470,55 @@
   display: grid;
   gap: 3px;
   padding: 10px 12px;
-  border: 1px solid rgba(116, 237, 255, 0.18);
+  border: 1px solid var(--panel-border);
   border-radius: 11px;
-  background: rgba(8, 14, 31, 0.74);
-  color: #aeb8ce;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--muted-text);
   cursor: pointer;
   text-align: left;
   transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
 }
 
 .depth-tab:hover {
-  border-color: rgba(116, 237, 255, 0.42);
+  border-color: var(--panel-border-strong);
 }
 
 .depth-tab:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
 .depth-tab.active {
+  color: var(--heading-text);
+  border-color: var(--panel-border-strong);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* The active depth tab is the one place besides the breadcrumb and the
+   left-border accent that carries the chapter's domain color — an
+   intentional, explicitly-scoped exception. */
+.lesson-view[data-domain="cyan"] .depth-tab.active {
   color: var(--cyan);
-  border-color: rgba(116, 237, 255, 0.55);
+  border-color: rgba(116, 237, 255, 0.5);
   background: var(--cyan-soft);
+}
+
+.lesson-view[data-domain="cyan-violet"] .depth-tab.active {
+  color: var(--cyan-violet);
+  border-color: rgba(137, 186, 255, 0.5);
+  background: var(--cyan-violet-soft);
+}
+
+.lesson-view[data-domain="violet"] .depth-tab.active {
+  color: var(--violet);
+  border-color: rgba(169, 109, 255, 0.5);
+  background: var(--violet-soft);
+}
+
+.lesson-view[data-domain="magenta"] .depth-tab.active {
+  color: var(--magenta);
+  border-color: rgba(255, 118, 207, 0.5);
+  background: var(--magenta-soft);
 }
 
 .depth-tab-label {
@@ -335,19 +529,20 @@
 
 .depth-tab-hint {
   font-size: 0.66rem;
-  color: #8793aa;
+  color: var(--muted-text);
   line-height: 1.3;
 }
 
 .depth-tab.active .depth-tab-hint {
-  color: rgba(116, 237, 255, 0.75);
+  color: inherit;
+  opacity: 0.75;
 }
 
 /* ---------- Depth panel content ---------- */
 
 .depth-panels {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 16px;
+  border-top: 1px solid var(--panel-border);
+  padding-top: 18px;
 }
 
 .depth-panel {
@@ -366,12 +561,12 @@
   padding: 12px 14px;
   border: 1px solid var(--panel-border);
   border-radius: 11px;
-  background: rgba(7, 12, 28, 0.62);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .analogy-title {
   margin: 0 0 4px;
-  color: var(--cyan);
+  color: var(--muted-text);
   font-size: 0.72rem;
   font-weight: 700;
 }
@@ -396,8 +591,8 @@
   display: block;
   padding: 8px 10px;
   border-radius: 8px;
-  background: rgba(7, 12, 28, 0.7);
-  color: #d9b3ff;
+  background: var(--code-bg);
+  color: var(--code-text);
   font-size: 0.82rem;
   overflow-x: auto;
   white-space: pre;
@@ -405,28 +600,23 @@
 
 .bridge-result {
   padding: 12px 14px;
-  border: 1px solid rgba(255, 118, 207, 0.22);
+  border: 1px solid var(--panel-border);
   border-radius: 11px;
-  background: rgba(255, 118, 207, 0.05);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .equation-block-label {
   margin: 0 0 6px;
-  color: var(--magenta);
+  color: var(--muted-text);
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
-.equation-block-expression {
-  color: #ffd7ef;
-  background: rgba(7, 12, 28, 0.5);
-}
-
 .equation-block-note {
   margin: 8px 0 0;
-  color: #8793aa;
+  color: var(--muted-text);
   font-size: 0.76rem;
   line-height: 1.5;
 }
@@ -438,7 +628,7 @@
 
 .academic-block-label {
   margin: 0;
-  color: var(--violet);
+  color: var(--muted-text);
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -452,60 +642,96 @@
   gap: 6px;
 }
 
-/* ---------- Misconception ---------- */
+/* ---------- Misconception (quiet, not a hero panel) ---------- */
 
 .misconception-card {
-  padding: 14px 16px;
-  border: 1px solid rgba(255, 213, 104, 0.32);
-  border-radius: 13px;
-  background: rgba(255, 213, 104, 0.06);
+  padding: 12px 14px;
+  border: 1px solid var(--panel-border);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.02);
   display: grid;
-  gap: 6px;
+  gap: 5px;
 }
 
 .misconception-label {
   margin: 0;
-  color: #ffd568;
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+  color: var(--muted-text);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .misconception-claim {
   margin: 0;
-  color: #f0b3b3;
-  font-size: 0.84rem;
+  color: var(--muted-text);
+  font-size: 0.82rem;
   line-height: 1.5;
   text-decoration: line-through;
-  text-decoration-color: rgba(240, 179, 179, 0.4);
+  text-decoration-color: rgba(135, 147, 170, 0.5);
 }
 
 .misconception-correction {
   margin: 0;
   color: var(--body-text);
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   line-height: 1.55;
+}
+
+/* ---------- Collapsible sections (understanding check, transfer question) ---------- */
+
+.collapsible-section {
+  border: 1px solid var(--panel-border);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 4px 16px;
+}
+
+.collapsible-section > summary {
+  padding: 12px 0;
+  color: var(--heading-text);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.collapsible-section > summary::-webkit-details-marker {
+  display: none;
+}
+
+.collapsible-section > summary::before {
+  content: "▸ ";
+  color: var(--muted-text);
+}
+
+.collapsible-section[open] > summary::before {
+  content: "▾ ";
+}
+
+.collapsible-section[open] > summary {
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.collapsible-section:focus-within {
+  border-color: var(--panel-border-strong);
+}
+
+.collapsible-section > summary:focus-visible {
+  outline: 2px solid var(--heading-text);
+  outline-offset: 2px;
+}
+
+.collapsible-section .understanding-check,
+.collapsible-section .transfer-question-body {
+  padding: 14px 0 16px;
 }
 
 /* ---------- Understanding check ---------- */
 
 .understanding-check {
-  padding: 14px 16px;
-  border: 1px solid var(--panel-border);
-  border-radius: 13px;
-  background: rgba(7, 12, 28, 0.62);
   display: grid;
   gap: 10px;
-}
-
-.understanding-check-label {
-  margin: 0;
-  color: var(--cyan);
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
 }
 
 .understanding-check-prompt {
@@ -522,9 +748,9 @@
 
 .check-option {
   padding: 10px 12px;
-  border: 1px solid rgba(116, 237, 255, 0.18);
+  border: 1px solid var(--panel-border);
   border-radius: 10px;
-  background: rgba(8, 14, 31, 0.74);
+  background: rgba(255, 255, 255, 0.02);
   color: var(--body-text);
   text-align: left;
   font-size: 0.82rem;
@@ -534,11 +760,11 @@
 }
 
 .check-option:hover {
-  border-color: rgba(116, 237, 255, 0.42);
+  border-color: var(--panel-border-strong);
 }
 
 .check-option:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
@@ -572,40 +798,42 @@
   background: rgba(255, 118, 118, 0.06);
 }
 
-/* ---------- Transfer question / next question ---------- */
+/* ---------- Transfer question ---------- */
 
-.transfer-question,
-.next-question-banner {
-  padding: 14px 16px;
-  border-radius: 13px;
-}
-
-.transfer-question {
-  border: 1px solid var(--panel-border);
-  background: rgba(7, 12, 28, 0.62);
-}
-
-.transfer-question p {
-  margin: 0 0 8px;
+.transfer-question-body p {
+  margin: 0 0 10px;
   color: var(--body-text);
   font-size: 0.86rem;
   line-height: 1.55;
 }
 
-.transfer-question details summary {
-  color: var(--cyan);
+.transfer-question-body details summary {
+  color: var(--body-text);
   font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
 }
 
-.transfer-question details p {
+.transfer-question-body details summary:hover {
+  color: var(--heading-text);
+}
+
+.transfer-question-body details summary:focus-visible {
+  outline: 2px solid var(--heading-text);
+  outline-offset: 2px;
+}
+
+.transfer-question-body details p {
   margin-top: 8px;
 }
 
+/* ---------- Next inevitable question ---------- */
+
 .next-question-banner {
-  border: 1px solid rgba(116, 237, 255, 0.3);
-  background: linear-gradient(120deg, rgba(116, 237, 255, 0.08), rgba(169, 109, 255, 0.08));
+  padding: 16px 18px;
+  border: 1px solid var(--panel-border);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .next-question-banner p:last-child {
@@ -620,9 +848,9 @@
 
 .lab-connection-card {
   padding: 16px 18px;
-  border: 1px solid rgba(255, 118, 207, 0.32);
+  border: 1px solid var(--panel-border);
   border-radius: 13px;
-  background: linear-gradient(120deg, rgba(169, 109, 255, 0.09), rgba(255, 118, 207, 0.09));
+  background: rgba(255, 255, 255, 0.03);
   display: grid;
   gap: 10px;
 }
@@ -637,10 +865,10 @@
 .lab-connection-button {
   justify-self: start;
   padding: 10px 18px;
-  border: 1px solid rgba(255, 118, 207, 0.45);
+  border: 1px solid var(--panel-border-strong);
   border-radius: 10px;
-  background: var(--magenta-soft);
-  color: var(--magenta);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--heading-text);
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
@@ -648,48 +876,49 @@
 }
 
 .lab-connection-button:hover {
-  border-color: rgba(255, 118, 207, 0.7);
-  background: rgba(255, 118, 207, 0.16);
+  border-color: var(--heading-text);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .lab-connection-button:focus-visible {
-  outline: 2px solid var(--magenta);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
 .lab-connection-card.planned {
-  border-color: rgba(255, 118, 207, 0.18);
-  background: rgba(255, 118, 207, 0.04);
-  opacity: 0.82;
+  border-style: dashed;
+  opacity: 0.8;
 }
 
 .lab-connection-button.planned {
   cursor: not-allowed;
-  color: #8793aa;
-  border-color: rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted-text);
+  border-color: var(--panel-border);
+  background: transparent;
 }
 
 .lab-connection-button.planned:hover {
-  border-color: rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--panel-border);
+  background: transparent;
 }
 
 .planned-lab-note {
   margin: 0;
-  color: #8793aa;
+  color: var(--muted-text);
   font-size: 0.74rem;
   font-style: italic;
   line-height: 1.5;
 }
 
-/* ---------- Frontier claims (established / open / speculative) ---------- */
+/* ---------- Frontier claims (established / open / speculative) ----------
+   Deliberately exempt from the neutral system — this three-way color
+   coding is semantic, not decorative. */
 
 .frontier-claims {
   padding: 14px 16px;
   border: 1px solid var(--panel-border);
   border-radius: 13px;
-  background: rgba(7, 12, 28, 0.62);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .frontier-claim-list {
@@ -753,7 +982,7 @@
   padding: 12px 14px;
   border: 1px solid var(--panel-border);
   border-radius: 11px;
-  background: rgba(7, 12, 28, 0.5);
+  background: rgba(255, 255, 255, 0.02);
   display: grid;
   gap: 8px;
   align-content: start;
@@ -777,9 +1006,9 @@
 .gauge-chip {
   width: 100%;
   padding: 8px 10px;
-  border: 1px solid rgba(116, 237, 255, 0.2);
+  border: 1px solid var(--panel-border);
   border-radius: 8px;
-  background: rgba(8, 14, 31, 0.74);
+  background: rgba(255, 255, 255, 0.02);
   color: var(--body-text);
   font-size: 0.76rem;
   font-weight: 600;
@@ -789,25 +1018,24 @@
 }
 
 .gauge-chip:hover {
-  border-color: rgba(116, 237, 255, 0.45);
+  border-color: var(--panel-border-strong);
 }
 
 .gauge-chip:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
 .gauge-chip.muted {
-  color: #8793aa;
+  color: var(--muted-text);
   border-style: dashed;
-  border-color: rgba(169, 109, 255, 0.3);
 }
 
 .gauge-chip-detail {
   margin: 0;
   padding: 8px 10px;
   border-radius: 8px;
-  background: rgba(169, 109, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--body-text);
   font-size: 0.74rem;
   line-height: 1.5;
@@ -816,8 +1044,8 @@
 .gauge-comparison-total {
   margin: 0;
   padding-top: 6px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--cyan);
+  border-top: 1px solid var(--panel-border);
+  color: var(--muted-text);
   font-size: 0.74rem;
   font-weight: 700;
 }
@@ -825,9 +1053,9 @@
 .gauge-comparison-summary {
   margin: 0;
   padding: 10px 12px;
-  border: 1px solid rgba(255, 118, 207, 0.25);
+  border: 1px solid var(--panel-border);
   border-radius: 10px;
-  background: var(--magenta-soft);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--heading-text);
   font-size: 0.8rem;
   font-weight: 600;
@@ -838,11 +1066,15 @@
 /* ---------- Source notes ---------- */
 
 .source-notes summary {
-  color: var(--cyan);
+  color: var(--body-text);
   font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
   list-style: none;
+}
+
+.source-notes summary:hover {
+  color: var(--heading-text);
 }
 
 .source-notes summary::-webkit-details-marker {
@@ -851,6 +1083,7 @@
 
 .source-notes summary::before {
   content: "▸ ";
+  color: var(--muted-text);
 }
 
 .source-notes[open] summary::before {
@@ -869,11 +1102,11 @@
   padding: 10px 12px;
   border: 1px solid var(--panel-border);
   border-radius: 10px;
-  background: rgba(7, 12, 28, 0.62);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .source-item.cited {
-  border-color: rgba(116, 237, 255, 0.4);
+  border-color: var(--panel-border-strong);
 }
 
 .source-item a {
@@ -884,13 +1117,13 @@
 }
 
 .source-item a:hover {
-  color: var(--cyan);
+  color: var(--body-text);
 }
 
 .source-author {
   display: block;
   margin-top: 2px;
-  color: #8793aa;
+  color: var(--muted-text);
   font-size: 0.72rem;
 }
 
@@ -899,8 +1132,8 @@
   margin-top: 6px;
   padding: 2px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(116, 237, 255, 0.35);
-  color: var(--cyan);
+  border: 1px solid var(--panel-border-strong);
+  color: var(--muted-text);
   font-size: 0.62rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -923,15 +1156,15 @@
   gap: 10px;
   flex-wrap: wrap;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--panel-border);
 }
 
 .lesson-nav-button,
 .prerequisite-map-button {
   padding: 9px 14px;
-  border: 1px solid rgba(116, 237, 255, 0.2);
+  border: 1px solid var(--panel-border);
   border-radius: 10px;
-  background: rgba(8, 14, 31, 0.74);
+  background: rgba(255, 255, 255, 0.02);
   color: var(--body-text);
   font-size: 0.78rem;
   font-weight: 700;
@@ -942,23 +1175,18 @@
 .lesson-nav-button:hover:not(:disabled),
 .prerequisite-map-button:hover {
   color: var(--heading-text);
-  border-color: rgba(116, 237, 255, 0.45);
+  border-color: var(--panel-border-strong);
 }
 
 .lesson-nav-button:focus-visible,
 .prerequisite-map-button:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
 .lesson-nav-button:disabled {
   opacity: 0.35;
   cursor: not-allowed;
-}
-
-.prerequisite-map-button {
-  color: var(--violet);
-  border-color: rgba(169, 109, 255, 0.35);
 }
 
 /* ---------- Prerequisite map ---------- */
@@ -981,7 +1209,7 @@
   padding: 22px 24px;
   border: 1px solid var(--panel-border);
   border-radius: 16px;
-  background: linear-gradient(160deg, rgba(9, 16, 34, 0.98), rgba(20, 14, 44, 0.98));
+  background: linear-gradient(160deg, rgba(10, 13, 24, 0.98), rgba(13, 15, 24, 0.98));
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
   text-align: left;
 }
@@ -1001,9 +1229,9 @@
 
 .map-close-button {
   padding: 6px 12px;
-  border: 1px solid rgba(116, 237, 255, 0.2);
+  border: 1px solid var(--panel-border);
   border-radius: 8px;
-  background: rgba(8, 14, 31, 0.74);
+  background: rgba(255, 255, 255, 0.02);
   color: var(--body-text);
   cursor: pointer;
   font-size: 0.74rem;
@@ -1011,13 +1239,13 @@
 }
 
 .map-close-button:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
 .prerequisite-map-caption {
   margin: 8px 0 16px;
-  color: #8793aa;
+  color: var(--muted-text);
   font-size: 0.76rem;
   line-height: 1.5;
 }
@@ -1067,8 +1295,8 @@
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  border: 1px solid rgba(116, 237, 255, 0.18);
-  background: rgba(8, 14, 31, 0.74);
+  border: 1px solid var(--panel-border);
+  background: rgba(255, 255, 255, 0.02);
   color: var(--body-text);
   font-size: 0.74rem;
   font-weight: 700;
@@ -1076,7 +1304,7 @@
 }
 
 .map-node:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
@@ -1086,9 +1314,13 @@
 }
 
 .map-node.available:hover {
-  border-color: rgba(116, 237, 255, 0.5);
+  border-color: var(--panel-border-strong);
 }
 
+/* "Current" and "focused" are active-item indicators — like the depth
+   tab, these are allowed to carry color (here, a neutral wayfinding cyan
+   rather than the viewed lesson's own domain, since the map spans every
+   chapter at once). */
 .map-node.focused {
   border-color: var(--cyan);
   color: var(--cyan);
@@ -1105,7 +1337,7 @@
   padding: 14px 16px;
   border: 1px solid var(--panel-border);
   border-radius: 12px;
-  background: rgba(7, 12, 28, 0.7);
+  background: rgba(255, 255, 255, 0.02);
   display: grid;
   gap: 10px;
 }
@@ -1123,33 +1355,37 @@
   align-items: center;
   gap: 6px;
   margin: 0;
-  color: #8793aa;
+  color: var(--muted-text);
   font-size: 0.76rem;
 }
 
 .map-prerequisite-chip {
   padding: 4px 10px;
-  border: 1px solid rgba(169, 109, 255, 0.35);
+  border: 1px solid var(--panel-border-strong);
   border-radius: 999px;
-  background: var(--violet-soft);
-  color: var(--violet);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--body-text);
   font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
 }
 
+.map-prerequisite-chip:hover {
+  color: var(--heading-text);
+}
+
 .map-prerequisite-chip:focus-visible {
-  outline: 2px solid var(--violet);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
 .map-go-button {
   justify-self: start;
   padding: 8px 16px;
-  border: 1px solid rgba(116, 237, 255, 0.4);
+  border: 1px solid var(--panel-border-strong);
   border-radius: 9px;
-  background: var(--cyan-soft);
-  color: var(--cyan);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--heading-text);
   font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
@@ -1161,17 +1397,20 @@
 }
 
 .map-go-button:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
-/* ---------- Interactive widgets ---------- */
+/* ---------- Interactive widgets ----------
+   Chrome (labels, captions, controls) is neutral. Chart/data colors
+   inside individual widgets (e.g. the four Fourier mode curves) are left
+   alone — they encode data, not decoration. */
 
 .interactive-widget {
   padding: 14px 16px;
-  border: 1px solid rgba(169, 109, 255, 0.25);
+  border: 1px solid var(--panel-border);
   border-radius: 13px;
-  background: rgba(9, 12, 28, 0.6);
+  background: rgba(255, 255, 255, 0.02);
   display: grid;
   gap: 10px;
 }
@@ -1186,7 +1425,7 @@
 
 .interactive-widget-label {
   margin: 0;
-  color: var(--violet);
+  color: var(--muted-text);
   font-size: 0.66rem;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -1208,34 +1447,45 @@
 }
 
 .interactive-widget-controls label strong {
-  color: var(--cyan);
+  color: var(--heading-text);
 }
 
 .interactive-widget-controls input[type="range"] {
   width: 100%;
-  accent-color: var(--violet);
+  accent-color: var(--muted-text);
   cursor: pointer;
 }
 
 .interactive-widget-controls input[type="range"]:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 4px;
 }
 
 .interactive-widget-caption {
   margin: 0;
-  color: #8793aa;
+  color: var(--muted-text);
   font-size: 0.76rem;
   line-height: 1.55;
 }
 
 .discretized-string-svg,
-.variation-bump-svg {
+.variation-bump-svg,
+.fourier-modes-svg {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 10px;
-  background: radial-gradient(circle at center, rgba(84, 82, 170, 0.12), transparent 65%);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.plot-axis {
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 1;
+}
+
+.axis-label {
+  fill: var(--muted-text);
+  font-size: 12px;
 }
 
 .string-reference-path {
@@ -1276,17 +1526,17 @@
 
 .unit-toggle-button {
   padding: 6px 12px;
-  border: 1px solid rgba(116, 237, 255, 0.3);
+  border: 1px solid var(--panel-border-strong);
   border-radius: 999px;
-  background: var(--cyan-soft);
-  color: var(--cyan);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--heading-text);
   font-size: 0.72rem;
   font-weight: 700;
   cursor: pointer;
 }
 
 .unit-toggle-button:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 2px;
 }
 
@@ -1302,7 +1552,7 @@
 }
 
 .unit-equation-row dt {
-  color: #8793aa;
+  color: var(--muted-text);
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -1316,19 +1566,11 @@
   display: block;
   padding: 8px 10px;
   border-radius: 8px;
-  background: rgba(7, 12, 28, 0.7);
-  color: #d9b3ff;
+  background: var(--code-bg);
+  color: var(--code-text);
   font-size: 0.82rem;
   overflow-x: auto;
   white-space: pre;
-}
-
-.fourier-modes-svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  background: radial-gradient(circle at center, rgba(84, 82, 170, 0.12), transparent 65%);
 }
 
 .fourier-mode-path {
@@ -1369,7 +1611,7 @@
 }
 
 .fourier-mode-row input[type="range"]:focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--heading-text);
   outline-offset: 4px;
 }
 
@@ -1386,6 +1628,16 @@
 
   .gauge-comparison-columns {
     grid-template-columns: 1fr;
+  }
+
+  .lesson-breadcrumb {
+    font-size: 0.74rem;
+  }
+
+  .breadcrumb-progress {
+    margin-left: 0;
+    flex-basis: 100%;
+    order: 3;
   }
 
   .lesson-footer {

@@ -15,7 +15,6 @@ export function UnderstandingCheck({ check }: UnderstandingCheckProps) {
 
   return (
     <section className="understanding-check" aria-label="Understanding check">
-      <p className="understanding-check-label">Understanding check</p>
       <p className="understanding-check-prompt">{check.prompt}</p>
 
       <div className="understanding-check-options" role="radiogroup" aria-label={check.prompt}>
